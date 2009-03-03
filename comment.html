@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    </head>
+    <body>
+        {% for comment in comments %}
+        <a id=up_{{ comment.id }} onclick="return vote(this)" href="vote?by={{ user.nickname }}&for={{ comment.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
+        <p>{{ comment.content }}</p>
+        <b>{{ comment.author.nickname }}</b>, ups: {{comment.ups}}, {% if comment.hours %}{{comment.hours}} hours ago{% else %}{{comment.minutes}} minutes ago{% endif %} <!-- | <a href="/comment?pid={{ comment.id }}">Comments : {{comment.comments_number}}</a> --><p></p>
+        {% endfor %}
+        {% if url %}
+        <a href="{{url}}">{{ url_linktext }}</a>
+        {% else %}
+        <form action="/comment" method="post">
+            <div><textarea name="content" rows="3" cols="80"></textarea></div>
+            <input type="hidden" name="pid" value="{{ pid }}" />
+            <div><input type="submit" value="Add a comment" /></div>
+        </form>
+        {% endif %}
+    </body>
+</html>
+

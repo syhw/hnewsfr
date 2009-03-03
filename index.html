@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+        <script>
+            function vote(node) {
+                var v = node.id.split(/_/); 
+                var item = v[1]; 
+                var ups = document.getElementById('ups_' + item);
+                var newscore = parseInt(ups.innerHTML) + 1;
+                score.innerHTML = newscore + (newscore == 1 ? ' up' : ' ups');
+                document.getElementById('up_'   + item).style.visibility = 'hidden';
+                // var ping = new Image(); POUR PAS QUE ÇA NE COLLAPSE
+                // ping.src = node.href;
+                return false; 
+                } 
+        </script>
+    </head>
+    <title>Ceci est un exercice, je répête !</title>
+    <body>
+        <!-- CORRIGER PLURIELS -->
+        {% for post in posts %}
+        <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?by={{ user.nickname }}&for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
+        <div><a href="{{post.url}}">{{ post.content|escape }}</a> ({{post.site}})</div>
+        <b>{{ post.author.nickname }}</b>, <span id=ups_{{ post.id }}>ups: {{post.ups}}</span>, {% if post.hours %}{{post.hours}} hours ago{% else %}{{post.minutes}} minutes ago{% endif %} | <a href="/comment?pid={{ post.id }}">Comments : {{post.comments_number}}</a><p></p>
+        {% endfor %}
+
+        <a href="{{ url }}">{{ url_linktext }}</a> 
+        <a href="{{ submit }}">{{ submit_linktext }}</a> 
+
+    </body>
+</html>
+

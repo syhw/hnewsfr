@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rss version="2.0">
+    <channel>
+        <title>Ceci est un exercice, je répête</title>
+        <link>http://hnewsfr.appspot.com</link>
+        <description>Les derniers liens tout chauds</description>
+
+        <item>
+            <title>Enfin un flux RSS !</title>
+            <link>http://monsiteweb.com/rss.html</link>
+            <guid isPermaLink="true">http://monsiteweb.com/rss.html</guid>
+            <description>Un flux RSS a été installé sur mon site. Vous pouvez le consulter avec votre logiciel favori.</description>
+            <pubDate>Wed, 3 Aug 2005 15:17:00 GMT</pubDate>
+        </item>
+
+    </channel>
+</rss>
+
