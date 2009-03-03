@@ -128,7 +128,7 @@ class Submit(webapp.RequestHandler):
             self.redirect('/wrong_submit')
             return -1
         if self.request.get('content'):
-            submit.content = unicode((self.request.get('content')).encode('utf-8'), 'utf-8')
+            submit.content = self.request.get('content')
         else:
             print 'Comment tu veux que je fasse un lien sur la chaine vide ?'
             print 'Empty string !'
@@ -186,9 +186,9 @@ class Submit(webapp.RequestHandler):
 
 class ViewComment(webapp.RequestHandler):
     def get(self):
-        pid = self.request.get('pid')
         com = Comment.all()
-        com.filter('post =', Post.get_by_id(int(pid)))
+        post = Post.get_by_id(int(self.request.get('pid')))
+        com.filter('post =', post)
         # TODO Reply => recursively descend
         com.order('date')
         comments = com.fetch(5000) # hardcoded limit
@@ -196,14 +196,14 @@ class ViewComment(webapp.RequestHandler):
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
             template_values = {
-                    'pid': pid,
+                    'post': post,
                     'url': url,
                     'url_linktext': url_linktext,
                     'comments': DisplayComments(comments)
                     }
         else:
             template_values = {
-                    'pid': pid,
+                    'post': post,
                     'comments': DisplayComments(comments)
                     }
         path = os.path.join(os.path.dirname(__file__), 'comment.html')
@@ -214,7 +214,7 @@ class ViewComment(webapp.RequestHandler):
             submit.author = users.get_current_user()
         else:
             self.redirect(users.create_login_url(self.request.uri))
-        submit.content = unicode((self.request.get('content')).encode('utf-8'), 'utf-8')
+        submit.content = self.request.get('content')
         pid = self.request.get('pid')
         submit.post = Post.get_by_id(int(pid))
         submit.put()

@@ -1,15 +1,27 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/submit.css" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Ceci est un exercice, je répête !</title>
     </head>
     <body>
+        <div id="global">
+            <div id="header">
+                <a href="/"><h1>Hacker News Francophone</h1></a>
+            </div>
+            <div class="clear"></div>
 
-        <form action="/submit" method="post">
-            <div><textarea name="content" rows="3" cols="80"></textarea></div>
-            <div><input type="text" name=url></div>
-            <div><input type="submit" value="Submit a link"></div>
-        </form>
+            <div id="content">
+                <form action="/submit" method="post">
+                    <p>Ajouter un lien</p>
+                    <!-- <label>Texte : <textarea name="content" rows="3" cols="80"></textarea></label> -->
+                    <label>Texte : <input type="text" name=content></label>
+                    <label>Lien : <input type="text" name=url></label>
+                    <div><input class="submit" type="submit" value="Submit a link" /></div>
+                </form>
+            </div>
 
+    </div>
     </body>
 </html>
 

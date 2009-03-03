@@ -1,6 +1,8 @@
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+        <link type="text/css" rel="stylesheet" href="/stylesheets/style.css" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Ceci est un exercice, je répête !</title>
         <script>
             function vote(node) {
                 var v = node.id.split(/_/); 
@@ -15,18 +17,38 @@
                 } 
         </script>
     </head>
-    <title>Ceci est un exercice, je répête !</title>
     <body>
-        <!-- CORRIGER PLURIELS -->
-        {% for post in posts %}
-        <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?by={{ user.nickname }}&for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
-        <div><a href="{{post.url}}">{{ post.content|escape }}</a> ({{post.site}})</div>
-        <b>{{ post.author.nickname }}</b>, <span id=ups_{{ post.id }}>ups: {{post.ups}}</span>, {% if post.hours %}{{post.hours}} hours ago{% else %}{{post.minutes}} minutes ago{% endif %} | <a href="/comment?pid={{ post.id }}">Comments : {{post.comments_number}}</a><p></p>
-        {% endfor %}
-
-        <a href="{{ url }}">{{ url_linktext }}</a> 
-        <a href="{{ submit }}">{{ submit_linktext }}</a> 
-
+        <div id="global">
+            <div id="header">
+                <a href="/"><h1>Hacker News Francophone</h1></a>
+            </div>
+            <div class="menu">
+                <div class="lienMenu"><a href="{{ url }}">{{ url_linktext }}</a>
+                </div>
+                <div class="lienMenu"><a href="{{ submit }}">{{ submit_linktext }}</a>
+                </div>
+            </div><div class="clear"></div>
+            {% for post in posts %}
+                <div class="blocLink">
+                    <!-- CORRIGER PLURIELS -->
+                    <div class="leftSide">
+                        <p class="position">N</p>
+                        <div>
+                            <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?by={{ user.nickname }}&for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
+                            <p class="score"><span id=ups_{{ post.id }}>ups: {{post.ups}}</span></p>
+                        </div>
+                    </div>
+                    <div class="rightSide">
+                        <p class="link"><a href="{{post.url}}">{{ post.content|escape }}</a> ({{post.site}})
+                        <div class="infos">
+                            <p class="auteur"><b>{{ post.author.nickname }}</b>, </p>
+                            <p class="date">{% if post.hours %}{{post.hours}} hours ago{% else %}{{post.minutes}} minutes ago{% endif %}</p>
+                            <p class="comment"> | <a href="/comment?pid={{ post.id }}">Comments : {{post.comments_number}}</a></p>
+                        </div><div class="clear"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div">
     </body>
 </html>
 
