@@ -6,11 +6,11 @@
         <description>Les derniers liens tout chauds</description>
 
         <item>
-            <title>Enfin un flux RSS !</title>
-            <link>http://monsiteweb.com/rss.html</link>
-            <guid isPermaLink="true">http://monsiteweb.com/rss.html</guid>
-            <description>Un flux RSS a été installé sur mon site. Vous pouvez le consulter avec votre logiciel favori.</description>
-            <pubDate>Wed, 3 Aug 2005 15:17:00 GMT</pubDate>
+            <title>TITRE</title>
+            <link>http://localhost:8080/comment?pid=75</link>
+            <guid isPermaLink="true">http://localhost:8080/comment?pid=75</guid>
+            <description>lalala</description>
+            <pubDate>Date ici</pubDate>
         </item>
 
     </channel>
