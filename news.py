@@ -19,6 +19,7 @@ class Entry(polymodel.PolyModel):
     ups = db.IntegerProperty()
 
 entry = Entry()
+entry.content = "Fake cron"
 entry.put()
 
 class Post(Entry):
