@@ -9,10 +9,10 @@
                 var item = v[1]; 
                 var ups = document.getElementById('ups_' + item);
                 var newscore = parseInt(ups.innerHTML) + 1;
-                score.innerHTML = newscore + (newscore == 1 ? ' up' : ' ups');
+                ups.innerHTML = newscore; // + (newscore == 1 ? ' up' : ' ups');
                 document.getElementById('up_'   + item).style.visibility = 'hidden';
-                // var ping = new Image(); POUR PAS QUE ÇA NE COLLAPSE
-                // ping.src = node.href;
+                var ping = new Image();
+                ping.src = node.href;
                 return false; 
                 } 
         </script>
@@ -29,26 +29,43 @@
                 </div>
             </div><div class="clear"></div>
             {% for post in posts %}
-                <div class="blocLink">
-                    <!-- CORRIGER PLURIELS -->
-                    <div class="leftSide">
-                        <p class="position">N</p>
-                        <div>
-                            <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?by={{ user.nickname }}&for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
-                            <p class="score"><span id=ups_{{ post.id }}>ups: {{post.ups}}</span></p>
-                        </div>
-                    </div>
-                    <div class="rightSide">
-                        <p class="link"><a href="{{post.url}}">{{ post.content|escape }}</a> ({{post.site}})
-                        <div class="infos">
-                            <p class="auteur"><b>{{ post.author.nickname }}</b>, </p>
-                            <p class="date">{% if post.hours %}{{post.hours}} hours ago{% else %}{{post.minutes}} minutes ago{% endif %}</p>
-                            <p class="comment"> | <a href="/comment?pid={{ post.id }}">Comments : {{post.comments_number}}</a></p>
-                        </div><div class="clear"></div>
+            <div class="blocLink">
+                <div class="leftSide">
+                    <p id="pos" class="position"></p>
+                    <div>
+                        {% if post.varw %}
+                        <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
+                        {% endif %}
+                        <p class="score"><span id=ups_{{ post.id }}>{{post.ups}}</span></p>
                     </div>
                 </div>
+                <div class="rightSide">
+                    <p class="link"><a href="{{post.url}}">{{ post.content|escape }}</a> ({{post.site}})
+                    <div class="infos">
+                        <p class="auteur"><b>{{ post.author.nickname }}</b>, </p>
+                        <p class="date">{% if post.hours %}{{post.hours}} hours ago{% else %}{{post.minutes}} minutes ago{% endif %}</p>
+                        <p class="comment"> | <a href="/comment?pid={{ post.id }}">Comments : {{post.comments_number}}</a></p>
+                    </div><div class="clear"></div>
+                </div>
+            </div>
             {% endfor %}
         </div">
+        <script type="text/javascript">
+            var rac = document.getElementById("global");
+            i = 1;
+            for (var itemi=0; itemi<rac.childNodes.length; itemi++) {
+                var item = rac.childNodes[itemi];
+                if (item.className == "blocLink") {
+                    for (var j=0;j<item.childNodes.length; j++) {
+                        if (item.childNodes[j].className == "leftSide") {
+                            item.childNodes[j].childNodes[1].appendChild(document.createTextNode(i));
+                            i++;
+                        }
+                    }
+                }
+            }
+        </script>
+
     </body>
 </html>
 
