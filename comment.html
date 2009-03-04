@@ -27,9 +27,9 @@
                     <div class="leftSide">
                         <div>
                             {% if view %}
-                            <a id=up_{{ post.key.id }} onclick="return vote(this)" href="vote?for={{ post.key.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
+                            <a id=up_{{ post.id }} onclick="return vote(this)" href="vote?for={{ post.id }}"><img src="img/uparrow.gif" alt="up arrow" border=0 vspace=3 hspace=2></a>
                             {% endif %}
-                            <p class="score"><span id=ups_{{ post.key.id }}>{{post.ups}}</span></p>
+                            <p class="score"><span id=ups_{{ post.id }}>{{post.ups}}</span></p>
                         </div>
                     </div>
                     <div class="rightSide">
@@ -53,7 +53,7 @@
                     <form action="/comment" method="post">
                         <p>Ajouter un commentaire</p>
                         <textarea name="content" rows="3" cols="50"></textarea>
-                        <input type="hidden" name="pid" value="{{ post.key.id }}" />
+                        <input type="hidden" name="pid" value="{{ post.id }}" />
                         <div><input type="submit" value="Add a comment" /></div>
                     </form>
                     {% endif %}

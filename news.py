@@ -197,16 +197,17 @@ class ViewComment(webapp.RequestHandler):
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
             template_values = {
-                    'post': post,
+                    'post': DisplayPost(post, None),
                     'url': url,
                     'url_linktext': url_linktext,
                     'comments': DisplayComments(comments, None),
                     'view': 0
                     }
         else:
+            u = users.get_current_user()
             template_values = {
-                    'post': post,
-                    'comments': DisplayComments(comments, users.get_current_user()),
+                    'post': DisplayPost(post, u),
+                    'comments': DisplayComments(comments, u),
                     'view': 1 - user_found(users.get_current_user(), post.key())
                     }
         path = os.path.join(os.path.dirname(__file__), 'comment.html')
