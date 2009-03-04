@@ -18,9 +18,15 @@ class Entry(polymodel.PolyModel):
     date = db.DateTimeProperty(auto_now_add=True)
     ups = db.IntegerProperty()
 
-entry = Entry()
-entry.content = "Fake cron"
-entry.put()
+# Hack moche pour simuler un cron
+test_cron = Entry.all()
+test_cron.filter('content = ', 'FC')
+if test_cron.count():
+    cron = Entry.get(test_cron.fetch(1)[0].key())
+else:
+    cron = Entry()
+    cron.content = "FC"
+    cron.put()
 
 class Post(Entry):
     url = db.StringProperty()
@@ -111,9 +117,9 @@ class DisplayComments(list):
 
 class MainPage(webapp.RequestHandler):
     def get(self):
-        if calc_minutes(entry) > 20:
-            entry.date = datetime.utcnow()
-            entry.put()
+        if calc_minutes(cron) > 19:
+            cron.date = datetime.utcnow()
+            cron.put()
             posts_query = Post.all()
             posts = posts_query.fetch(80) # HARDCODED LIMIT
             for post in posts:
