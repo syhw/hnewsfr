@@ -23,14 +23,22 @@ indexes:
   - name: date
     direction: desc
 
-# Used 6 times in query history.
+# Used 7 times in query history.
 - kind: Entry
   properties:
   - name: class
   - name: post
   - name: date
 
-# Used 7 times in query history.
+# Used 3 times in query history.
+- kind: Entry
+  properties:
+  - name: class
+  - name: post
+  - name: ups
+    direction: desc
+
+# Used 11 times in query history.
 - kind: Entry
   properties:
   - name: class

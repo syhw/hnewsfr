@@ -14,7 +14,6 @@ class Entry(polymodel.PolyModel):
 
 posts_limit = 800 # Hardcoded limit
 comments_limit = 400 # Hardcoded limit
-front_page_number = 20 # Hardcoded limit
 # Hack moche pour simuler un cron
 test_cron = Entry.all()
 test_cron.filter('content = ', 'FC')
@@ -33,7 +32,7 @@ class Post(Entry):
         com = Comment.all()
         com.filter('post =', self)
         # TODO Reply => recursively descend
-        com.order('date')
+        com.order('-ups')
         return com.fetch(comments_limit)
 
 class Comment(Entry):
