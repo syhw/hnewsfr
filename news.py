@@ -21,7 +21,7 @@ class Entry(polymodel.PolyModel):
 # Hack moche pour simuler un cron
 test_cron = Entry.all()
 test_cron.filter('content = ', 'FC')
-if test_cron.count():
+if test_cron.count(): # is_saved()
     cron = Entry.get(test_cron.fetch(1)[0].key())
 else:
     cron = Entry()
@@ -117,14 +117,6 @@ class DisplayComments(list):
 
 class MainPage(webapp.RequestHandler):
     def get(self):
-        if calc_minutes(cron) > 19:
-            cron.date = datetime.utcnow()
-            cron.put()
-            posts_query = Post.all()
-            posts = posts_query.fetch(80) # HARDCODED LIMIT
-            for post in posts:
-                post.rank = update_rank(post)
-                post.put()
         posts_query = Post.all().order('-rank')
         posts = posts_query.fetch(20)
         if users.get_current_user():
@@ -182,6 +174,11 @@ class Submit(webapp.RequestHandler):
         submit.rank = 0
         submit.ups = 0
         submit.put()
+        posts_query = Post.all()
+        posts = posts_query.fetch(80) # HARDCODED LIMIT
+        for post in posts:
+            post.rank = update_rank(post)
+            post.put()
         self.redirect('/')
         return 0
 
@@ -240,6 +237,40 @@ class Vote(webapp.RequestHandler):
             e.rank = update_rank(e)
         e.put()
 
+class FeedPost(Post):
+    def __init__(self, post):
+        self.content = post.content
+        self.ups = post.ups
+        self.url = post.url
+        self.site = post.site
+        self.fdate = post.date.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+class FeedPosts(list):
+    def __init__(self, posts):
+        for post in posts:
+            self.append(FeedPost(post))
+
+class RSS(webapp.RequestHandler):
+    def get(self):
+        ####### RE-RANK
+        if calc_minutes(cron) > 19:
+            cron.date = datetime.utcnow()
+            cron.put()
+            posts_query = Post.all()
+            posts = posts_query.fetch(400) # HARDCODED LIMIT
+            for post in posts:
+                post.rank = update_rank(post)
+                post.put()
+        ####### /RE-RANK
+        posts_query = Post.all().order('-rank')
+        posts = posts_query.fetch(6)
+        template_values = {
+            'posts': FeedPosts(posts),
+            }
+        path = os.path.join(os.path.dirname(__file__), 'news.xml')
+        self.response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
+        self.response.out.write(template.render(path, template_values))
+
 # Never finish any code or you'll get old ...
 class WrongSubmit(webapp.RequestHandler):
     def get(self):
@@ -253,6 +284,7 @@ class AlreadySubmitted(webapp.RequestHandler):
 
 application = webapp.WSGIApplication(
                                     [('/', MainPage),
+                                     ('/rss', RSS),
                                      ('/vote', Vote),
                                      ('/submit', Submit),
                                      ('/comment', ViewComment),
