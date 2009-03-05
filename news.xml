@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
     <channel>
-        <title>Ceci est un exercice, je répête</title>
+        <title>HNewsFR</title>
         <link>http://hnewsfr.appspot.com</link>
         <description>Les derniers liens tout chauds</description>
 
+        {% for post in posts %}
         <item>
-            <title>TITRE</title>
-            <link>http://localhost:8080/comment?pid=75</link>
-            <guid isPermaLink="true">http://localhost:8080/comment?pid=75</guid>
-            <description>lalala</description>
-            <pubDate>Date ici</pubDate>
+            <title>{{ post.site }}</title>
+            <link>{{ post.url }}</link>
+            <guid isPermaLink="true">http://localhost:8080/comment?pid={{ post.id }}</guid>
+            <description>{{ post.content }} | score: {{ post.ups }}</description>
+            <pubDate>{{ post.fdate }}</pubDate>
         </item>
-
+        {% endfor %}
     </channel>
 </rss>
-
