@@ -1,2 +1,5 @@
 Licensing: Do What The Fuck You Want To Public Licence
 More details: http://sam.zoy.org/wtfpl/
+
+TODO:
+Cron is now avaible, should delete the database datetime hack someday.
