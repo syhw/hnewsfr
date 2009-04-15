@@ -27,7 +27,7 @@ else:
 class Post(Entry):
     url = db.StringProperty()
     site = db.StringProperty()
-    rank = db.IntegerProperty()
+    rank = db.FloatProperty()
     def get_comments(self):
         com = Comment.all()
         com.filter('post =', self)
@@ -68,7 +68,7 @@ def count_comments(key):
 
 def update_rank(post):
     #post.rank = (3*post.ups + count_comments(post)) / (4*calc_hours(post) + 1)
-    return int(math.ceil(post.ups / math.pow(calc_hours(post) + 1, 1.5)))
+    return (float(post.ups) / math.pow(calc_hours(post) + 1.0, 1.5))
 
 def update_ranks():
     posts_query = Post.all()
@@ -79,10 +79,10 @@ def update_ranks():
     return 0
 
 def update_check():
-    if calc_minutes(cron) > 19:
-        cron.date = datetime.utcnow()
-        cron.put()
-        update_ranks()
+    #if calc_minutes(cron) > 10:
+    cron.date = datetime.utcnow()
+    cron.put()
+    update_ranks()
 
 def user_found(u, e):
 # return 0 is not found and 1 if found #

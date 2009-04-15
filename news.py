@@ -7,6 +7,7 @@ from google.appengine.ext.webapp.util import login_required
 
 class MainPage(webapp.RequestHandler):
     def get(self):
+        data.update_check()
         posts_query = data.Post.all().order('-rank')
         posts = posts_query.fetch(20)
         if users.get_current_user():
@@ -57,7 +58,7 @@ class Submit(webapp.RequestHandler):
             self.redirect('/empty_content')
             return -1
         submit.site = submit.url.split('/')[2] # should be a regexp ? 
-        submit.rank = 0
+        submit.rank = 0.0
         submit.ups = 0
         submit.put()
         data.update_ranks()
